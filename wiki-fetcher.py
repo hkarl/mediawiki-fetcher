@@ -38,7 +38,7 @@ def fetch_wiki_page(site, page, out=None):
     if isinstance(page, basestring) or isinstance(page, str):
         # if we get a pagename: fetch the page object
         page = site.Pages[page]
-    out = "out/" if out is None else out
+    out = "out" if out is None else out
     ensure_dir(out)
 
     print "Fetching page: %s" % page.name
@@ -82,7 +82,11 @@ def ensure_dir(directory):
 
 def download(host, target,
              user=None, password=None,
-             output="out", category=None):
+             output="out/", category=None):
+
+    if not output[-1] == '/':
+        output += '/'
+        
     site = setup_connection(host, user, password)
     if category:
         fetch_wiki_category(site, target, output)
